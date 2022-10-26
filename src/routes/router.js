@@ -6,8 +6,9 @@ const schemaCar = require("../validation/schemaCar");
 const verifyingLogin = require("../middleware/verifyingLogin");
 const {
   listingCars,
-  carRegister,
+  registeringCar,
   updatingCar,
+  deletingCar,
 } = require("../controllers/carros");
 const router = express.Router();
 
@@ -17,7 +18,8 @@ router.post("/sign-in", userLogin);
 router.get("/cars", listingCars);
 
 router.use(verifyingLogin);
-router.post("/cars", bodyValidation(schemaCar), carRegister);
+router.post("/cars", bodyValidation(schemaCar), registeringCar);
 router.put("/cars/:id", bodyValidation(schemaCar), updatingCar);
+router.delete("/cars/:id", deletingCar);
 
 module.exports = router;

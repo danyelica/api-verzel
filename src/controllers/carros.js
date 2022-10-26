@@ -10,7 +10,7 @@ const listingCars = async (req, res) => {
   }
 };
 
-const carRegister = async (req, res) => {
+const registeringCar = async (req, res) => {
   const { nome, marca, modelo, foto } = req.body;
 
   try {
@@ -37,8 +37,21 @@ const updatingCar = async (req, res) => {
   }
 };
 
+const deletingCar = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    await knex("carros").where({ id }).delete();
+
+    return res.status(204).send();
+  } catch (error) {
+    return res.json({ mensagem: error.message });
+  }
+};
+
 module.exports = {
   listingCars,
-  carRegister,
+  registeringCar,
   updatingCar,
+  deletingCar,
 };
