@@ -4,12 +4,13 @@ const schemaUser = require("../validation/schemaUser");
 const { userRegister, userLogin } = require("../controllers/usuarios");
 const schemaCar = require("../validation/schemaCar");
 const verifyingLogin = require("../middleware/verifyingLogin");
-const { carRegister } = require("../controllers/carros");
+const { listingCars, carRegister } = require("../controllers/carros");
 const router = express.Router();
 
 router.post("/sign-up", bodyValidation(schemaUser), userRegister);
 router.post("/sign-in", userLogin);
 
+router.get("/cars", listingCars, carRegister);
 router.post("/cars", bodyValidation(schemaCar), verifyingLogin, carRegister);
 
 module.exports = router;

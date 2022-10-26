@@ -1,5 +1,15 @@
 const knex = require("../connection/connection");
 
+const listingCars = async (req, res) => {
+  try {
+    const cars = await knex("carros");
+
+    return res.status(200).json(cars);
+  } catch (error) {
+    return res.status(500).json({ mensagem: error.message });
+  }
+};
+
 const carRegister = async (req, res) => {
   const { nome, marca, modelo, foto } = req.body;
   const user = req.user;
@@ -20,5 +30,6 @@ const carRegister = async (req, res) => {
 };
 
 module.exports = {
+  listingCars,
   carRegister,
 };
