@@ -28,7 +28,7 @@ const userRegister = async (req, res) => {
 
     return res.status(201).json(user[0]);
   } catch (error) {
-    return res.status(500).json({ mensagem: error.message });
+    return res.json({ mensagem: error.message });
   }
 };
 
@@ -58,7 +58,7 @@ const userLogin = async (req, res) => {
 
     return res.status(200).json({ user: userData, token });
   } catch (error) {
-    return res.status(500).json({ mensagem: error.message });
+    return res.json({ mensagem: error.message });
   }
 };
 
