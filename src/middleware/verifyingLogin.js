@@ -16,7 +16,11 @@ const verifyingLogin = async (req, res, next) => {
     const user = await knex("usuarios").where({ id }).first();
 
     if (!user) {
-      throw new Error("Esse nome de usuário já existe", { statusCode: 404 });
+      throw new Error("Esse nome de usuário não existe", { statusCode: 404 });
+    }
+
+    if (!user.admin) {
+      throw new Error("Você não tem permissão", { statusCode: 401 });
     }
 
     const { senha, ...newUser } = user;

@@ -12,13 +12,8 @@ const listingCars = async (req, res) => {
 
 const carRegister = async (req, res) => {
   const { nome, marca, modelo, foto } = req.body;
-  const user = req.user;
 
   try {
-    if (!user.admin) {
-      throw new Error("Você não tem permissão", { statusCode: 401 });
-    }
-
     const car = await knex("carros")
       .insert({ nome, marca, modelo, foto })
       .returning(["nome", "marca", "modelo", "foto"]);
@@ -29,7 +24,21 @@ const carRegister = async (req, res) => {
   }
 };
 
+const updatingCar = async (req, res) => {
+  const { nome, marca, modelo, foto } = req.body;
+  const { id } = req.params;
+
+  try {
+    await knex("carros").where({ id }).update({ nome, marca, modelo, foto });
+
+    return res.status(204).send();
+  } catch (error) {
+    return res.json({ mensagem: error.message });
+  }
+};
+
 module.exports = {
   listingCars,
   carRegister,
+  updatingCar,
 };
