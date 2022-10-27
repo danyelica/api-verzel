@@ -1,10 +1,40 @@
 const knex = require("../connection/connection");
 
 const listingCars = async (req, res) => {
+  const { modelos, marcas } = req.query;
+
+  if (modelos || marcas) {
+    return filteringCars(res, modelos, marcas);
+  }
+
   try {
     const cars = await knex("carros");
 
     return res.status(200).json(cars);
+  } catch (error) {
+    return res.status(500).json({ mensagem: error.message });
+  }
+};
+
+const filteringCars = async (res, modelos, marcas) => {
+  try {
+    let carsModel = [];
+    let carsBrand = [];
+
+    if (modelos) {
+      for (let model of modelos) {
+        const car = await knex("carros").where({ modelo: model });
+        carsModel.push(...car);
+      }
+    }
+    if (marcas) {
+      for (let brand of marcas) {
+        const car = await knex("carros").where({ marca: brand });
+        carsBrand.push(...car);
+      }
+    }
+
+    return res.status(200).json([...carsModel, ...carsBrand]);
   } catch (error) {
     return res.status(500).json({ mensagem: error.message });
   }
