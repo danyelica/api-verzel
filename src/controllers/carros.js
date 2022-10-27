@@ -11,12 +11,17 @@ const listingCars = async (req, res) => {
 };
 
 const registeringCar = async (req, res) => {
-  const { nome, marca, modelo, foto } = req.body;
+  const { nome, marca, modelo, foto, preco } = req.body;
+  let carPrice;
 
   try {
+    if (preco) {
+      carPrice = preco;
+    }
+
     const car = await knex("carros")
-      .insert({ nome, marca, modelo, foto })
-      .returning(["nome", "marca", "modelo", "foto"]);
+      .insert({ nome, marca, modelo, foto, preco: carPrice })
+      .returning(["nome", "marca", "modelo", "foto", "preco"]);
 
     return res.status(201).json(car[0]);
   } catch (error) {
@@ -25,11 +30,13 @@ const registeringCar = async (req, res) => {
 };
 
 const updatingCar = async (req, res) => {
-  const { nome, marca, modelo, foto } = req.body;
+  const { nome, marca, modelo, foto, preco } = req.body;
   const { id } = req.params;
 
   try {
-    await knex("carros").where({ id }).update({ nome, marca, modelo, foto });
+    await knex("carros")
+      .where({ id })
+      .update({ nome, marca, modelo, foto, preco });
 
     return res.status(204).send();
   } catch (error) {

@@ -17,6 +17,9 @@ const schemaCar = joi.object({
     "any.required": "O campo foto é obrigatório",
     "string.empty": "O campo foto é obrigatório",
   }),
+  preco: joi.number().integer().message({
+    "number.base": "O campo preco deve ser um número",
+  }),
 });
 
 module.exports = schemaCar;

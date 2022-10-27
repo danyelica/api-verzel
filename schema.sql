@@ -5,7 +5,8 @@ CREATE TABLE IF NOT EXISTS carros(
   nome TEXT NOT NULL,
   marca TEXT NOT NULL,
   modelo TEXT NOT NULL,
-  foto TEXT NOT NULL
+  foto TEXT NOT NULL,
+  preco INTEGER,
 );
 
 CREATE TABLE IF NOT EXISTS usuarios(
